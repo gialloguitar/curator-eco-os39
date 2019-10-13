@@ -9,7 +9,7 @@
 # to keep ops logs for a different duration:
 .operations:
   delete:
-    days: 5
+    months: 5
 
 # .regex:
 #   - pattern: '^project\..*$'
@@ -21,21 +21,22 @@
 
 # # prefix for all unit 'project.'
 operational-sandbox:
-    delete:
-      size: 5
+  delete:
+    size: 5
 
 epm-eoa-iass-production:
-    delete:
-      days: 1
-      size: 15
+  delete:
+    months: 3
+    size: 15
 
 epm-iass-elk:
-   delete:
-      days: 1
+  delete:
+    weeks: 3
 
-# edp-deploy:
-#   delete:
-#     days: 1
+edp-deploy:
+  delete:
+    days: 31
+    size: 15
 
 # example for a normal (without regexp) project
 #myapp:

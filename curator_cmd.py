@@ -131,25 +131,37 @@ class CuratorCmd():
                     else:
                         this_project = project
                         default_command = default_command + " --exclude " + "'" + project + "'"
-                    #MY
-                    this_project + 'hhhh'
-
-
-                                 
-                    #self.curator_settings[operation][this_project][unit] = count
-                    #self.curator_settings[operation][this_project][size] = quota 
                     #self.curator_settings[operation].setdefault(unit, {}).setdefault(count, []).append(this_project)
-                    #self.logger.debug('Using [%s] [%d] [%s] [%d] for [%s]', unit, count, size, quota, this_project)
+                    self.curator_settings[operation][this_project] = {}
+                    self.curator_settings[operation][this_project][unit] = count
+                    self.curator_settings[operation][this_project][size] = quota
+                    self.logger.debug('Using [%s] [%d] [%s] [%d] for [%s]', unit, count, size, quota, this_project)
                 else:
                     if operation not in self.allowed_params:
                         self.logger.error('an unsupported or unknown operation ' + operation + ' was provided... Record skipped')
         
         print('CURATOR SETTINGS:')
         pprint(self.curator_settings)
+        print(unit)
         self.commands.append(default_command)
         for operation in self.curator_settings:
-            for unit in self.curator_settings[operation]:
-                for value in self.curator_settings[operation][unit]:
+            for project in self.curator_settings[operation]:
+                if 'months' in self.curator_settings[operation][project]:
+                    unit = 'months'
+                else:
+                    unit = 'days'    
+                tab_cmd = '/usr/bin/curator --loglevel ' + self.curator_log_level + ' ' \
+                         + con_info + ' ' + operation + ' indices --timestring %Y.%m.%d' \
+                         + ' --older-than ' + str(self.curator_settings[operation][project][unit])  \
+                         + ' --time-unit ' + unit \
+                         + ' --regex ' + shellquote(project)
+                self.commands.append(tab_cmd)                 
+                tab_cmd = '/usr/bin/curator --loglevel ' + self.curator_log_level + ' ' \
+                         + con_info + ' ' + operation + ' --disk-space ' \
+                         + str(self.curator_settings[operation][project][size]) + ' indices --regex ' + shellquote(project)
+                self.commands.append(tab_cmd)
+                           
+                # for value in self.curator_settings[operation][unit]:
 
                     # construct regex to match all projects for this op/time/unit
                     # regex escape any regex special characters in the project name (there shouldn't be, but just in case)
@@ -162,13 +174,15 @@ class CuratorCmd():
                     #         + shellquote('(' + '|'.join(map(
                     #             lambda project: project,
                     #             self.curator_settings[operation][unit][value])) + ')')
-                    tab_cmd = '/usr/bin/curator --loglevel ' + self.curator_log_level + ' ' \
-                             + con_info + ' ' + operation + ' --disk-space ' \
-                             + ' indices --regex ' \
-                             + shellquote(''.join(map(
-                                 lambda project: project,
-                                 self.curator_settings[operation][unit][value])))
-                    self.commands.append(tab_cmd)                                
+                    
+                    # tab_cmd = '/usr/bin/curator' \
+                    #          + con_info + ' ' + operation + ' --disk-space indices' \
+                    #          + ' --older-than ' + str(value) + ' --time-unit ' + unit \
+                    #          + ' --regex ' \
+                    #          + shellquote(''.join(map(
+                    #              lambda project: project,
+                    #              self.curator_settings[operation][unit][value])))
+                    # self.commands.append(tab_cmd)                                
                 
     def build_cmd_list(self):
         self.check_config()

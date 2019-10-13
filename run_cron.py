@@ -6,14 +6,13 @@ from curator_cmd import CuratorCmd
 from crontab import CronTab
 from datetime import datetime, timedelta
 from util import create_logger
-from pprint import pprint
 from parser import Parser
 
 
-t = Parser('config.yaml')
-c = t.parse()
-print('CONFIG FORM PARSER:')
-pprint(c)
+# t = Parser('config.yaml')
+# c = t.parse()
+# print('CONFIG FORM PARSER:')
+# pprint(c)
 
 class CuratorCronJob():
 
@@ -29,9 +28,9 @@ class CuratorCronJob():
 
     def setup_cron(self):
         for cmd in self.cmd_list:
-            print(cmd)
-            #job = self.job_list.new(command=cmd, comment='Generated job based on settings')
-            #job.every().day()
+            #print(cmd)
+            job = self.job_list.new(command=cmd, comment='Generated job based on settings')
+            job.every().day()
 
     def run(self):
         self.logger.info("curator running [%d] jobs", len(self.job_list))
@@ -64,5 +63,5 @@ class CuratorCronJob():
 if __name__ == '__main__':
     ccj = CuratorCronJob()
     ccj.setup_cron()
-    #ccj.run()
-    #ccj.loop()
+    ccj.run()
+    ccj.loop()

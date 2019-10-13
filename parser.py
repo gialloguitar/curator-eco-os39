@@ -12,7 +12,6 @@ import sys
 import yaml
 
 from util import create_logger
-from pprint import pprint
 
 class Parser():
 

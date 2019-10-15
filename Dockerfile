@@ -1,8 +1,6 @@
 FROM python:2.7
-COPY ./app /usr/src/
+COPY ./app /usr/src/app
 WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-
-
 CMD [ "python", "./run_cron.py" ]

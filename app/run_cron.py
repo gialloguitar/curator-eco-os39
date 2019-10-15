@@ -28,7 +28,7 @@ class CuratorCronJob():
 
     def setup_cron(self):
         for cmd in self.cmd_list:
-            print(cmd)
+            #print(cmd)
             job = self.job_list.new(command=cmd, comment='Generated job based on settings')
             job.every().day()
             #self.job_list.write()

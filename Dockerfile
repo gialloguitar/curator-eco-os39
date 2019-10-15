@@ -1,5 +1,4 @@
-FROM openshift/python-33-centos7
-
+FROM python:3
 RUN pip install PyYAML python-crontab pytz
 
 WORKDIR /usr/src/app

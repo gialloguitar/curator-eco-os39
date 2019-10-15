@@ -1,4 +1,4 @@
-FROM python:3
+FROM openshift/python-35-centos7
 
 COPY requirements.txt ./
 RUN pip install --upgrade pip && \

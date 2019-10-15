@@ -1,0 +1,44 @@
+# Logging example curator config file
+# uncomment and use this to override the defaults from env vars
+.defaults:
+  delete:
+    days: 7
+# runhour: 2
+# runminute: 15
+
+# to keep ops logs for a different duration:
+.operations:
+  delete:
+    weeks: 4 
+
+# .regex:
+#   - pattern: '^project\..*$'
+#     delete:
+#       days: 2
+#  - pattern: '^project\..*$'
+#    delete:
+#      size: 1
+
+# # # prefix for all unit 'project.'
+# operational-sandbox:
+#   delete:
+#     size: 5
+
+# epm-eoa-iass-production:
+#   delete:
+#     months: 3
+#     size: 15
+
+# epm-iass-elk:
+#   delete:
+#     weeks: 3
+
+# edp-deploy:
+#   delete:
+#     days: 31
+#     size: 15
+
+# example for a normal (without regexp) project
+#myapp:
+#  delete:
+#    weeks: 1

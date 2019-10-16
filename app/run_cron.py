@@ -58,7 +58,7 @@ class CuratorCronJob():
                 # run it same time tomorrow
                 offset = 86400
             #untilnextruntime = (lastruntime + timedelta(seconds=offset) - timenow).seconds
-            untilnextruntime = self.time_loop
+            untilnextruntime = int(self.time_loop)
             self.logger.debug("curator hour [%d] minute [%d] seconds until next runtime [%d] now [%s]", \
                     self.hour, self.minute, untilnextruntime, str(timenow))
             # sleep until then

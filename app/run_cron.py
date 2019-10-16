@@ -29,10 +29,9 @@ class CuratorCronJob():
 
     def setup_cron(self):
         for cmd in self.cmd_list:
-            #print(cmd)
+            print(cmd, end='\n')
             job = self.job_list.new(command=cmd, comment='Generated job based on settings')
             job.every().day()
-            #self.job_list.write()
     
     def run(self):
         self.logger.info("curator running [%d] jobs", len(self.job_list))
@@ -45,7 +44,6 @@ class CuratorCronJob():
             else:
                 self.logger.debug("curator job [%s] was successful", job)
         # test-curator looks for this string to mean the jobs are complete
-        print('Some output!')
         self.logger.info("curator run finish")
 
     def loop(self):

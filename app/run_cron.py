@@ -25,7 +25,7 @@ class CuratorCronJob():
         self.minute = self.defaults.get('runminute', 0)
         self.timezone = self.defaults.get('timezone', 'UTC')
         self.time_loop = os.getenv('CURATOR_TIME_LOOP', 10)
-        self.job_list = CronTab(__name__)
+        self.job_list = CronTab()
 
     def setup_cron(self):
         for cmd in self.cmd_list:

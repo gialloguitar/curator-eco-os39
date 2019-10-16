@@ -32,8 +32,3 @@ def create_logger(name):
     lh.setFormatter(logging._defaultFormatter)
     logger.addHandler(lh)
     return logger
-
-l = create_logger(__name__)
-print(l.getEffectiveLevel())
-
-

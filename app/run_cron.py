@@ -24,11 +24,12 @@ class CuratorCronJob():
         self.hour = self.defaults.get('runhour', 0)
         self.minute = self.defaults.get('runminute', 0)
         self.timezone = self.defaults.get('timezone', 'UTC')
-        self.job_list = CronTab()
+        self.time_loop = os.getenv('CURATOR_TIME_LOOP', 10)
+        self.job_list = CronTab(__name__)
 
     def setup_cron(self):
         for cmd in self.cmd_list:
-            print(cmd)
+            #print(cmd)
             job = self.job_list.new(command=cmd, comment='Generated job based on settings')
             job.every().day()
             #self.job_list.write()
@@ -37,7 +38,8 @@ class CuratorCronJob():
         self.logger.info("curator running [%d] jobs", len(self.job_list))
         for job in self.job_list:
             self.logger.debug("curator running job [%s]", job)
-            #output = job.run()            
+            #output = job.run()
+            output = ''            
             if output:
                 self.logger.info(output)
             else:
@@ -55,17 +57,16 @@ class CuratorCronJob():
             if timenow > lastruntime:
                 # run it same time tomorrow
                 offset = 86400
-            untilnextruntime = (lastruntime + timedelta(seconds=offset) - timenow).seconds
+            #untilnextruntime = (lastruntime + timedelta(seconds=offset) - timenow).seconds
+            untilnextruntime = self.time_loop
             self.logger.debug("curator hour [%d] minute [%d] seconds until next runtime [%d] now [%s]", \
                     self.hour, self.minute, untilnextruntime, str(timenow))
             # sleep until then
-            #time.sleep(untilnextruntime)
-            time.sleep(10)
+            time.sleep(untilnextruntime)
             self.run()
 
 if __name__ == '__main__':
     ccj = CuratorCronJob()
     ccj.setup_cron()
     ccj.run()
-    #print(ccj.hour, ccj.minute)
     ccj.loop()

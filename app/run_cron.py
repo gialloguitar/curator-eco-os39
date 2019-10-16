@@ -43,7 +43,7 @@ class CuratorCronJob():
             else:
                 self.logger.debug("curator job [%s] was successful", job)
         # test-curator looks for this string to mean the jobs are complete
-        print('Some output')
+        print('Some output!')
         self.logger.info("curator run finish")
 
     def loop(self):

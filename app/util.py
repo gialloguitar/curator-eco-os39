@@ -3,6 +3,7 @@
 import os
 import sys
 import logging
+from pprint import pprint
 
 def create_logger(name):
     logger = logging.getLogger(name)
@@ -16,3 +17,5 @@ def create_logger(name):
     lh.setFormatter(logging._defaultFormatter)
     logger.addHandler(lh)
     return logger
+
+pprint(logging._levelNames.get(os.getenv('CURATOR_SCRIPT_LOG_LEVEL'), "NotFound!"))

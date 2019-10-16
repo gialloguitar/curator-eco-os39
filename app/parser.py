@@ -31,7 +31,7 @@ class Parser():
         self.default_time_unit = 'days'
         self.default_count = int(os.getenv('CURATOR_DEFAULT_DAYS', 31))
         self.default_size_unit = 'size'
-        self.default_size_quota = 10   # 10G of disk quota per project
+        self.default_size_quota = int(os.getenv('CURATOR_DEFAULT_SIZE', 10))   # 10G of disk quota per project
         self.runhour = int(os.getenv('CURATOR_RUN_HOUR', 0))
         self.runminute = int(os.getenv('CURATOR_RUN_MINUTE', 0))
         self.timezone = str(os.getenv('CURATOR_RUN_TIMEZONE', 'UTC'))

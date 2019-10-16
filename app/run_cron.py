@@ -38,7 +38,7 @@ class CuratorCronJob():
         for job in self.job_list:
             self.logger.debug("curator running job [%s]", job)
             #output = job.run()
-            output = ''            
+            output = job            
             if output:
                 self.logger.info(output)
             else:
